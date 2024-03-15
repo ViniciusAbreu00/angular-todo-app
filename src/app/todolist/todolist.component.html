@@ -1,0 +1,45 @@
+<div class="container mt-4" data-bs-theme="dark">
+  <div class="d-flex flex-row justify-content-between align-items-center">
+    <h1 class="fs-2e">Todo App</h1>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      Adicionar tarefa
+    </button>
+  </div>
+  <hr />
+  <div class="mb-3"></div>
+
+  <table class="table align-middle">
+    <thead>
+      <tr>
+        <th class="text-center">Task</th>
+        <th class="text-center">Complete</th>
+        <th class="text-center">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of taskArray">
+        <td align="center">{{ task.name }}</td>
+        <td align="center">
+          <input
+            (change)="handleDoneTask($event, task.id)"
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="checkedTask"
+          />
+        </td>
+        <td align="center">
+          <button (click)="handleTaskDelete(task.id)" class="btn">
+            <fa-icon [icon]="trashIcon" class="text-danger"></fa-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-new-task-modal></app-new-task-modal>
+</div>

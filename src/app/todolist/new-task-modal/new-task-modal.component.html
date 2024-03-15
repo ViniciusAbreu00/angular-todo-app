@@ -1,0 +1,79 @@
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Adicione sua nova tarefa
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #taskForm="ngForm">
+          <div class="mb-3">
+            <label for="taskName" class="form-label">Nome</label>
+            <input
+              class="form-control"
+              id="taskName"
+              aria-describedby="taskName"
+              [(ngModel)]="task.name"
+              name="taskName"
+              required
+            />
+            <small
+              *ngIf="taskForm.invalid && taskForm.touched"
+              id="taskName"
+              class="form-text text-danger"
+            >
+              Campo obrigatório
+            </small>
+          </div>
+          <div class="mb-3">
+            <label for="taskDescription" class="form-label">Descrição</label>
+            <input
+              class="form-control"
+              id="taskDescription"
+              aria-describedby="taskDescription"
+              [(ngModel)]="task.description"
+              name="taskDescription"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="dueDate" class="form-label">Data de vencimento</label>
+            <input
+              class="form-control"
+              [(ngModel)]="task.dueDate"
+              id="dueDate"
+              aria-describedby="dueDate"
+              ngModel
+              name="dueDate"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fechar
+        </button>
+        <button
+          (click)="onSubmit()"
+          [disabled]="taskForm.invalid"
+          type="submit"
+          class="btn btn-primary"
+        >
+          Adicionar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
