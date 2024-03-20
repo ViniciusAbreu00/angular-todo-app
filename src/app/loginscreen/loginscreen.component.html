@@ -49,7 +49,7 @@
         </small>
       </div>
       <button
-        [disabled]="loginForm.invalid && loginForm.touched"
+        [disabled]="loginForm.invalid"
         (click)="submitLogin()"
         class="btn btn-primary"
       >
@@ -133,7 +133,7 @@
       </div>
       <button
         type="submit"
-        [disabled]="registerForm.invalid && registerForm.touched"
+        [disabled]="registerForm.invalid"
         (click)="submitSignup()"
         class="btn btn-primary"
       >
