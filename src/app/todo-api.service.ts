@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import {
@@ -25,8 +25,13 @@ export class TodoApiService {
     return this.http.post('http://localhost:3000/user', { email, password });
   }
 
-  getTasks(userID: string) {
-    return this.http.get(`http://localhost:3000/task/${userID}`);
+  getTasks() {
+    const params = new HttpParams()
+      .append('status', 'IN_PROGRESS')
+      .append('status', 'DONE');
+    return this.http.get(`http://localhost:3000/task/${this.user.id}`, {
+      params,
+    });
   }
 
   newTask(task: TaskFormDTO) {

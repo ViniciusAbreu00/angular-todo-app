@@ -34,9 +34,7 @@ export class TodolistComponent implements OnInit {
   }
 
   getTask() {
-    const userLC = localStorage.getItem('USER');
-    const user = JSON.parse(userLC as any);
-    this.api.getTasks(user.id).subscribe(
+    this.api.getTasks().subscribe(
       (tasks) => {
         console.log(tasks);
         this.taskArray = tasks as Task[];
@@ -48,7 +46,9 @@ export class TodolistComponent implements OnInit {
   }
 
   handleTaskDelete(id: string) {
-    this.taskArray = this.taskArray.filter((task) => task._id !== id);
+    this.api.changeTaskStatus(id, TaskStatus.CANCELED).subscribe(() => {
+      this.getTask();
+    });
   }
 
   handleDoneTask(ev: any, id: string) {
