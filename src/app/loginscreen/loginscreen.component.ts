@@ -58,6 +58,7 @@ export class LoginscreenComponent {
       this.api
         .signup(this.register.email, this.register.password)
         .subscribe((res) => {
+          window.alert('Usuário criado com sucesso');
           this.isRegister = false;
         });
       this.passwordNotMatch = false;
