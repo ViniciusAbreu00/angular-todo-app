@@ -56,6 +56,7 @@
   </table>
   <div>
     <app-new-task-modal
+      (toggleIsEdition)="toggleIsEdition()"
       [isEdition]="isEdition"
       [taskToEdit]="taskToEdit"
       (getTasks)="getTask()"

@@ -31,6 +31,11 @@ export class TodolistComponent implements OnInit {
   isEdition: boolean = false;
   taskToEdit: Task | any = {};
 
+  toggleIsEdition(): void {
+    console.log('entrou');
+    this.isEdition = false;
+  }
+
   ngOnInit(): void {
     this.getTask();
   }

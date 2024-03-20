@@ -34,6 +34,7 @@ export interface TaskFormDTO {
 export class NewTaskModalComponent implements OnChanges {
   constructor(private api: TodoApiService) {}
   @Output() getTasks: EventEmitter<void> = new EventEmitter();
+  @Output() toggleIsEdition: EventEmitter<void> = new EventEmitter();
   @Input() taskToEdit: any = {};
   @Input() isEdition: any = false;
 
@@ -48,12 +49,18 @@ export class NewTaskModalComponent implements OnChanges {
       this.task = changes['taskToEdit'].currentValue;
     }
 
-    if (changes['isEdition'] && changes['isEdition'].currentValue !== true) {
-      this.task = {
-        description: '',
-        status: TaskStatus.IN_PROGRESS,
-        name: '',
-      };
+    if (
+      changes['isEdition'] &&
+      changes['isEdition'].currentValue !== undefined
+    ) {
+      console.log(changes['isEdition'].currentValue);
+      if (changes['isEdition'].currentValue !== true) {
+        this.task = {
+          description: '',
+          status: TaskStatus.IN_PROGRESS,
+          name: '',
+        };
+      }
     }
   }
 
@@ -63,7 +70,7 @@ export class NewTaskModalComponent implements OnChanges {
         (task) => {
           window.alert('Tarefa editada');
           this.getTasks.emit();
-          this.isEdition = false;
+          this.toggleIsEdition.emit();
         },
         (err) => {
           window.alert('Falha ao editar tarefa');
