@@ -1,5 +1,14 @@
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormsModule, NgForm } from '@angular/forms';
 import { TodoApiService } from '../../todo-api.service';
 
@@ -13,7 +22,6 @@ export interface TaskFormDTO {
   name: '';
   description: '';
   status: TaskStatus;
-  dueDate: null;
 }
 
 @Component({
@@ -23,26 +31,54 @@ export interface TaskFormDTO {
   templateUrl: './new-task-modal.component.html',
   styleUrl: './new-task-modal.component.scss',
 })
-export class NewTaskModalComponent {
+export class NewTaskModalComponent implements OnChanges {
   constructor(private api: TodoApiService) {}
   @Output() getTasks: EventEmitter<void> = new EventEmitter();
+  @Input() taskToEdit: any = {};
+  @Input() isEdition: any = false;
+
   task: TaskFormDTO = {
     description: '',
-    dueDate: null,
     status: TaskStatus.IN_PROGRESS,
     name: '',
   };
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['taskToEdit'] && changes['taskToEdit'].currentValue) {
+      this.task = changes['taskToEdit'].currentValue;
+    }
+
+    if (changes['isEdition'] && changes['isEdition'].currentValue !== true) {
+      this.task = {
+        description: '',
+        status: TaskStatus.IN_PROGRESS,
+        name: '',
+      };
+    }
+  }
+
   onSubmit() {
-    console.log(this.task);
-    this.api.newTask(this.task).subscribe(
-      (task) => {
-        window.alert('Tarefa criada');
-        this.getTasks.emit();
-      },
-      (err) => {
-        window.alert('Falha ao criar tarefa');
-      }
-    );
+    if (this.isEdition) {
+      this.api.editTask(this.taskToEdit._id, this.task).subscribe(
+        (task) => {
+          window.alert('Tarefa editada');
+          this.getTasks.emit();
+          this.isEdition = false;
+        },
+        (err) => {
+          window.alert('Falha ao editar tarefa');
+        }
+      );
+    } else {
+      this.api.newTask(this.task).subscribe(
+        (task) => {
+          window.alert('Tarefa criada');
+          this.getTasks.emit();
+        },
+        (err) => {
+          window.alert('Falha ao criar tarefa');
+        }
+      );
+    }
   }
 }

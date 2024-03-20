@@ -47,4 +47,8 @@ export class TodoApiService {
       status: status,
     });
   }
+
+  editTask(taskID: string, task: TaskFormDTO) {
+    return this.http.patch(`http://localhost:3000/task/${taskID}`, task);
+  }
 }

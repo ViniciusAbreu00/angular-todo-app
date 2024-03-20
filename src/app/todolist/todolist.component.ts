@@ -13,7 +13,6 @@ interface Task {
   _id: string;
   name: string;
   description?: string;
-  dueDate?: Date | null;
   status: TaskStatus;
 }
 
@@ -29,15 +28,24 @@ export class TodolistComponent implements OnInit {
   trashIcon = faTrashAlt;
   editIcon = faPenToSquare;
   taskArray: Task[] = [];
+  isEdition: boolean = false;
+  taskToEdit: Task | any = {};
 
   ngOnInit(): void {
     this.getTask();
+  }
+  handleEditTask(task: Task) {
+    this.taskToEdit = task;
+    this.isEdition = true;
+  }
+
+  handleNewTask() {
+    this.isEdition = false;
   }
 
   getTask() {
     this.api.getTasks().subscribe(
       (tasks) => {
-        console.log(tasks);
         this.taskArray = tasks as Task[];
       },
       (err) => {

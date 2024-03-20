@@ -5,7 +5,8 @@
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
+      data-bs-target="#newtaskmodal"
+      (click)="handleNewTask()"
     >
       Adicionar tarefa
     </button>
@@ -16,9 +17,9 @@
   <table class="table align-middle">
     <thead>
       <tr>
-        <th class="text-center">Task</th>
-        <th class="text-center">Complete</th>
-        <th class="text-center">Delete</th>
+        <th class="text-center">Nome da tarefa</th>
+        <th class="text-center">Feito</th>
+        <th class="text-center">Deletar</th>
         <th class="text-center">Editar</th>
       </tr>
     </thead>
@@ -41,12 +42,23 @@
           </button>
         </td>
         <td align="center">
-          <button (click)="handleTaskDelete(task._id)" class="btn">
-            <fa-icon [icon]="editIcon" class="text-danger"></fa-icon>
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#newtaskmodal"
+            class="btn"
+            (click)="handleEditTask(task)"
+          >
+            <fa-icon [icon]="editIcon" class="text-info"></fa-icon>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-  <app-new-task-modal (getTasks)="getTask()"></app-new-task-modal>
+  <div>
+    <app-new-task-modal
+      [isEdition]="isEdition"
+      [taskToEdit]="taskToEdit"
+      (getTasks)="getTask()"
+    ></app-new-task-modal>
+  </div>
 </div>

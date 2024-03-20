@@ -62,7 +62,5 @@ export class LoginscreenComponent {
         });
       this.passwordNotMatch = false;
     }
-
-    console.log(this.passwordNotMatch);
   }
 }
