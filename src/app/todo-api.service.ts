@@ -12,8 +12,6 @@ import {
 export class TodoApiService {
   constructor(private http: HttpClient) {}
 
-  user = JSON.parse(localStorage.getItem('USER') as any);
-
   login(username: string, password: string) {
     return this.http.post('http://localhost:3000/auth/login', {
       username,
@@ -26,24 +24,27 @@ export class TodoApiService {
   }
 
   getTasks() {
+    const user = JSON.parse(localStorage.getItem('USER') as any);
     const params = new HttpParams()
       .append('status', 'IN_PROGRESS')
       .append('status', 'DONE');
-    return this.http.get(`http://localhost:3000/task/${this.user.id}`, {
+    return this.http.get(`http://localhost:3000/task/${user?.id}`, {
       params,
     });
   }
 
   newTask(task: TaskFormDTO) {
+    const user = JSON.parse(localStorage.getItem('USER') as any);
     return this.http.post('http://localhost:3000/task', {
       ...task,
-      userId: this.user.id,
+      userId: user.id,
     });
   }
 
   changeTaskStatus(taskID: string, status: TaskStatus) {
+    const user = JSON.parse(localStorage.getItem('USER') as any);
     return this.http.patch(`http://localhost:3000/task/${taskID}`, {
-      userId: this.user.id,
+      userId: user.id,
       status: status,
     });
   }
