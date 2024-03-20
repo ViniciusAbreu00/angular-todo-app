@@ -13,7 +13,9 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(cloneRequest).pipe(
     catchError((err) => {
-      route.navigate(['/']);
+      if (err.code === 401) {
+        route.navigate(['/']);
+      }
       throw new Error(err);
     })
   );

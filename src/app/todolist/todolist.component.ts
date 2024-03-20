@@ -3,15 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
-import { NewTaskModalComponent } from './new-task-modal/new-task-modal.component';
+import {
+  NewTaskModalComponent,
+  TaskStatus,
+} from './new-task-modal/new-task-modal.component';
 import { TodoApiService } from '../todo-api.service';
 
 interface Task {
-  id: string;
+  _id: string;
   name: string;
   description?: string;
   dueDate?: Date | null;
-  isDone: boolean;
+  status: TaskStatus;
 }
 
 @Component({
@@ -44,29 +47,18 @@ export class TodolistComponent implements OnInit {
     );
   }
 
-  handleNewTask(task: Task) {
-    this.taskArray.push({ id: task.id, name: task.name, isDone: task.isDone });
-  }
   handleTaskDelete(id: string) {
-    this.taskArray = this.taskArray.filter((task) => task.id !== id);
+    this.taskArray = this.taskArray.filter((task) => task._id !== id);
   }
 
   handleDoneTask(ev: any, id: string) {
-    this.taskArray.forEach((task) => {
-      if (task.id === id) {
-        task.isDone = ev.target.checked;
-      }
-    });
-    console.log(this.taskArray);
-  }
-
-  onSubmit(form: NgForm) {
-    console.log(form);
-    this.handleNewTask({
-      id: Math.random().toFixed(2).toString(),
-      isDone: false,
-      name: form.value['taskName'],
-    });
-    form.reset();
+    this.api
+      .changeTaskStatus(
+        id,
+        ev.target.checked ? TaskStatus.DONE : TaskStatus.IN_PROGRESS
+      )
+      .subscribe(() => {
+        this.getTask();
+      });
   }
 }

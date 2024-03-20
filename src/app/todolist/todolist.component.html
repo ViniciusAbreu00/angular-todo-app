@@ -26,20 +26,21 @@
         <td align="center">{{ task.name }}</td>
         <td align="center">
           <input
-            (change)="handleDoneTask($event, task.id)"
+            (change)="handleDoneTask($event, task._id)"
             class="form-check-input"
             type="checkbox"
             value=""
+            [checked]="task.status === 'DONE'"
             id="checkedTask"
           />
         </td>
         <td align="center">
-          <button (click)="handleTaskDelete(task.id)" class="btn">
+          <button (click)="handleTaskDelete(task._id)" class="btn">
             <fa-icon [icon]="trashIcon" class="text-danger"></fa-icon>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-  <app-new-task-modal></app-new-task-modal>
+  <app-new-task-modal (getTasks)="getTask()"></app-new-task-modal>
 </div>

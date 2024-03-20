@@ -66,7 +66,7 @@
           Fechar
         </button>
         <button
-          (click)="onSubmit()"
+          (click)="onSubmit(); taskForm.reset()"
           [disabled]="taskForm.invalid"
           type="submit"
           class="btn btn-primary"
