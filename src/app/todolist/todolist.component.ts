@@ -2,7 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faTrashAlt, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import {
   NewTaskModalComponent,
   TaskStatus,
@@ -27,6 +27,7 @@ interface Task {
 export class TodolistComponent implements OnInit {
   constructor(private api: TodoApiService) {}
   trashIcon = faTrashAlt;
+  editIcon = faPenToSquare;
   taskArray: Task[] = [];
 
   ngOnInit(): void {

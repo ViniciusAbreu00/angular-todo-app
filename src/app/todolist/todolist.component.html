@@ -19,6 +19,7 @@
         <th class="text-center">Task</th>
         <th class="text-center">Complete</th>
         <th class="text-center">Delete</th>
+        <th class="text-center">Editar</th>
       </tr>
     </thead>
     <tbody>
@@ -37,6 +38,11 @@
         <td align="center">
           <button (click)="handleTaskDelete(task._id)" class="btn">
             <fa-icon [icon]="trashIcon" class="text-danger"></fa-icon>
+          </button>
+        </td>
+        <td align="center">
+          <button (click)="handleTaskDelete(task._id)" class="btn">
+            <fa-icon [icon]="editIcon" class="text-danger"></fa-icon>
           </button>
         </td>
       </tr>
