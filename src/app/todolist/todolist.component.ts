@@ -1,9 +1,10 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { NewTaskModalComponent } from './new-task-modal/new-task-modal.component';
+import { TodoApiService } from '../todo-api.service';
 
 interface Task {
   id: string;
@@ -20,15 +21,28 @@ interface Task {
   templateUrl: './todolist.component.html',
   styleUrl: './todolist.component.scss',
 })
-export class TodolistComponent {
+export class TodolistComponent implements OnInit {
+  constructor(private api: TodoApiService) {}
   trashIcon = faTrashAlt;
-  taskArray: Task[] = [
-    { id: '1', name: 'Task1', isDone: false },
-    { id: '2', name: 'Task2', isDone: false },
-    { id: '3', name: 'Task3', isDone: false },
-  ];
+  taskArray: Task[] = [];
 
-  constructor() {}
+  ngOnInit(): void {
+    this.getTask();
+  }
+
+  getTask() {
+    const userLC = localStorage.getItem('USER');
+    const user = JSON.parse(userLC as any);
+    this.api.getTasks(user.id).subscribe(
+      (tasks) => {
+        console.log(tasks);
+        this.taskArray = tasks as Task[];
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 
   handleNewTask(task: Task) {
     this.taskArray.push({ id: task.id, name: task.name, isDone: task.isDone });

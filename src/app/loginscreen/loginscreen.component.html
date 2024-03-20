@@ -1,0 +1,160 @@
+<div class="container mt-4" data-bs-theme="dark">
+  <div class="d-flex flex-column justify-content-center w-50">
+    @if (!isRegister) {
+
+    <h1 class="mb-3">Login</h1>
+    <form #loginForm="ngForm">
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          aria-describedby="emailHelp"
+          [(ngModel)]="login.email"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+          name="email"
+          required
+        />
+        <small
+          *ngIf="
+            loginForm.controls['email'].invalid &&
+            (loginForm.controls['email'].touched || loginForm.submitted)
+          "
+          id="email"
+          class="form-text text-danger"
+        >
+          {{ loginForm.controls['email'].errors?.["required"] ? 'Campo obrigatório' : 'Email inválido' }}
+        </small>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Senha</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="login.password"
+          name="password"
+          required
+        />
+        <small
+          *ngIf="
+            loginForm.controls['password'].invalid &&
+            loginForm.controls['password'].touched
+          "
+          id="password"
+          class="form-text text-danger"
+        >
+          Campo obrigatório
+        </small>
+      </div>
+      <button
+        [disabled]="loginForm.invalid && loginForm.touched"
+        (click)="submitLogin()"
+        class="btn btn-primary"
+      >
+        Login
+      </button>
+      <button
+        (click)="handleRegisterMode()"
+        class="btn btn-secondary"
+        style="margin-left: 10px"
+      >
+        Registrar
+      </button>
+    </form>
+    } @else {
+    <h1 class="mb-3">Registre-se</h1>
+    <form #registerForm="ngForm">
+      <div class="mb-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input
+          type="email"
+          class="form-control"
+          required
+          id="email"
+          aria-describedby="emailHelp"
+          [(ngModel)]="register.email"
+          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+          name="email"
+        />
+        <small
+          *ngIf="
+            registerForm.controls['email'].invalid &&
+            (registerForm.controls['email'].touched || registerForm.submitted)
+          "
+          id="email"
+          class="form-text text-danger"
+        >
+          {{ registerForm.controls['email'].errors?.["required"] ? 'Campo obrigatório' : 'Email inválido' }}
+        </small>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Senha</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          [(ngModel)]="register.password"
+          name="password"
+          required
+        />
+        <small
+          *ngIf="
+            registerForm.controls['password'].invalid &&
+            registerForm.controls['password'].touched
+          "
+          id="password"
+          class="form-text text-danger"
+        >
+          Campo obrigatório
+        </small>
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirme a senha</label>
+        <input
+          type="password"
+          class="form-control"
+          id="confirmPassword"
+          [(ngModel)]="register.confirmPassword"
+          name="confirmPassword"
+          required
+        />
+        <small
+          *ngIf="
+            registerForm.controls['confirmPassword'].invalid &&
+            registerForm.controls['confirmPassword'].touched
+          "
+          id="confirmPassword"
+          class="form-text text-danger"
+        >
+          Campo obrigatório
+        </small>
+      </div>
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid && registerForm.touched"
+        (click)="submitSignup()"
+        class="btn btn-primary"
+      >
+        Confirmar
+      </button>
+      <button
+        (click)="handleRegisterMode()"
+        class="btn btn-secondary"
+        style="margin-left: 10px"
+      >
+        Cancelar
+      </button>
+    </form>
+    }
+  </div>
+  <small
+    *ngIf="passwordNotMatch"
+    id="confirmPassword"
+    class="form-text text-danger"
+    style="margin-left: 10px"
+  >
+    Senhas não coincidem
+  </small>
+</div>

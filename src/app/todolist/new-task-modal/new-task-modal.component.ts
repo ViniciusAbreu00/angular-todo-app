@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
-interface TaskFormDTO {
+export interface TaskFormDTO {
   name: '';
   description: '';
   dueDate: null;
